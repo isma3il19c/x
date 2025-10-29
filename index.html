@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>موقع فاخر — مبرمج ومنتج فيديوهات</title>
+
+  <!-- خطوط عربية محسّنة للقراءة -->
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@500;600;700&family=Noto+Kufi+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (CSS) - يمكن استبداله بمجموعتك من أيقونات SVG لاحقاً لتحسين الأداء -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <meta name="description" content="موقع شخصي فاخر لمبرمج ومنتج فيديوهات — تصميم Glassmorphism مستوحى من iOS مع لمسات ذهبية وفخامة رولكس." />
+
+  <style>
+    :root{
+      --emerald-1: #0e2b22;
+      --emerald-2: #0a1f18;
+      --gold-1: #c9a646;
+      --gold-2: #b08b33;
+      --bg-dark-1: #0a1f18;
+      --bg-dark-2: #04120e;
+      --glass-trans: rgba(255,255,255,0.04);
+      --glass-emerald: rgba(10,40,30,0.16);
+      --glass-border: rgba(255,255,255,0.06);
+      --text: rgba(255,255,245,0.94);
+      --muted: rgba(255,255,245,0.6);
+      --glass-gold-shadow: 0 8px 30px rgba(201,166,70,0.08);
+      --glass-blur: 20px;
+      --card-radius: 18px;
+      --transition: 350ms cubic-bezier(.2,.9,.2,1);
+      --focus-outline: rgba(212,175,55,0.18);
+    }
+
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      padding:0;
+      font-family: "Noto Kufi Arabic", "Reem Kufi Fun", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background: linear-gradient(180deg, var(--bg-dark-1) 0%, rgba(2,22,18,0.9) 25%, rgba(4,83,51,0.6) 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      line-height:1.6;
+    }
+
+    /* Ambient vignette */
+    body::after{
+      content:"";
+      position:fixed; inset:0; pointer-events:none;
+      background: radial-gradient(600px 300px at 85% 10%, rgba(212,175,55,0.06), transparent 10%),
+                  radial-gradient(400px 200px at 10% 85%, rgba(212,175,55,0.03), transparent 10%);
+      mix-blend-mode: screen;
+      z-index:0;
+    }
+
+    .site{
+      position:relative;
+      z-index:2;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      gap:80px;
+      padding:36px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:12px 18px;
+      position:sticky;
+      top:18px;
+      z-index:100;
+      backdrop-filter: blur(10px) saturate(120%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 6px 20px rgba(2,8,6,0.55);
+    }
+
+    .brand{ display:flex; gap:12px; align-items:center; }
+    .logo{
+      width:52px; height:52px; border-radius:12px; display:grid; place-items:center;
+      background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 -4px 12px rgba(1,10,5,0.6), var(--glass-gold-shadow);
+      position:relative; overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(212,175,55,0.12), rgba(255,255,255,0.02));
+      transform: skewX(-18deg) translateX(-30%);
+      transition: transform 800ms ease;
+    }
+    header:hover .logo::after{ transform: skewX(-18deg) translateX(30%); }
+
+    .nav{ display:flex; gap:8px; align-items:center; }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:12px;
+      font-weight:600;
+      transition:all var(--transition);
+      backdrop-filter: blur(8px);
+    }
+    .nav a:hover{ color:var(--text); background: linear-gradient(90deg, rgba(212,175,55,0.06), rgba(255,255,255,0.01)); transform:translateY(-3px); box-shadow: 0 8px 30px rgba(212,175,55,0.04); }
+
+    .hero{ position:relative; min-height:78vh; display:flex; align-items:center; justify-content:center; padding:48px 18px; overflow:visible; }
+    #particles{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+
+    .hero-bg{ position:absolute; inset:-10% -20%; background: radial-gradient(800px 400px at 15% 20%, rgba(6,60,40,0.45), transparent 8%), radial-gradient(600px 300px at 85% 80%, rgba(2,10,6,0.6), transparent 10%); filter:blur(40px) saturate(120%); transform: translateZ(0); z-index:0; opacity:0.9; transition: transform 600ms ease, filter 600ms ease; }
+
+    .hero-card{
+      position:relative; z-index:3;
+      width:min(960px,92%); max-width:1100px; border-radius:28px; padding:32px;
+      display:grid; grid-template-columns: 1fr 380px; gap:28px; align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+      box-shadow: 0 20px 60px rgba(2,8,6,0.6), var(--glass-gold-shadow);
+      overflow:hidden;
+    }
+
+    .title-wrap{ position:relative; padding:6px 0; overflow:visible; }
+    .title{ font-size: clamp(26px, 4.2vw, 48px); line-height:1.05; font-weight:800; letter-spacing: -0.02em; color:transparent; -webkit-background-clip:text; background-clip:text; background-image: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(212,175,55,0.9) 18%, rgba(255,255,255,0.85) 40%, rgba(212,175,55,0.95) 65%, rgba(255,255,255,0.95) 100%); background-size:200% 100%; animation: shine 4.5s linear infinite; text-shadow: 0 6px 18px rgba(1,4,3,0.6), 0 1px 0 rgba(255,255,255,0.02); }
+    @keyframes shine{ 0%{ background-position:0 0; } 50%{ background-position:100% 0; } 100%{ background-position:0 0; } }
+
+    .subtitle{ color:var(--muted); font-weight:500; margin-top:10px; font-size:15px; max-width:56ch; }
+
+    .cta{ margin-top:18px; display:flex; gap:12px; align-items:center; }
+    .btn{ display:inline-grid; place-items:center; padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:700; letter-spacing:0.02em; transition: all 330ms cubic-bezier(.2,.9,.2,1); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(6px); background:transparent; color:var(--muted); text-decoration:none; }
+    .btn.primary{ background: linear-gradient(90deg, rgba(212,175,55,0.12), rgba(255,255,255,0.02)); color:var(--text); box-shadow: 0 8px 30px rgba(212,175,55,0.06); }
+    .btn.ghost{ background:transparent; color:var(--muted); border-color: rgba(255,255,255,0.03); }
+
+    .profile-card{
+      border-radius:18px; padding:16px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(14px); display:flex; gap:14px; align-items:center; box-shadow: 0 10px 40px rgba(2,8,6,0.6);
+    }
+
+    .avatar{ width:120px; height:120px; border-radius:14px; overflow:hidden; flex-shrink:0; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 6px 30px rgba(2,8,6,0.6), inset 0 -6px 18px rgba(0,0,0,0.45); background: linear-gradient(180deg, rgba(6,60,40,0.45), rgba(0,0,0,0.2)); display:grid; place-items:center; }
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .meta{ display:flex; flex-direction:column; gap:6px; }
+    .meta .name{ font-weight:800; font-size:18px; color:var(--text); }
+    .meta .role{ color:var(--muted); font-weight:600; font-size:13px; }
+    .meta .stats{ display:flex; gap:8px; margin-top:8px; align-items:center; }
+    .stat{ padding:6px 10px; border-radius:10px; font-size:13px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); border: 1px solid rgba(255,255,255,0.03); }
+
+    .social-icons{ display:flex; justify-content:center; align-items:center; gap:28px; margin-top:22px; flex-wrap:wrap; }
+    .social{ width:58px; height:58px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; color: #d4af37; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius:50%; backdrop-filter: blur(14px) saturate(180%); transition: all 0.35s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.25); cursor:pointer; position:relative; overflow:hidden; text-decoration:none; }
+    .social:hover{ color:#fff; transform: translateY(-6px) scale(1.05); border-color: rgba(212,175,55,0.5); box-shadow: 0 0 25px rgba(212,175,55,0.4); }
+
+    .social::after{ content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent); transform: skewX(-20deg); }
+    .social:hover::after{ animation: socialShine 0.9s ease; }
+    @keyframes socialShine{ 0%{ left:-75%; } 100%{ left:125%; } }
+
+    main{ display:flex; flex-direction:column; gap:64px; z-index:3; }
+    section{ width:100%; max-width:1200px; margin-inline:auto; padding:24px; border-radius:16px; }
+
+    .section-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+    .section-title{ font-weight:800; font-size:20px; display:flex; gap:12px; align-items:center; }
+    .section-title .dot{ width:14px; height:14px; border-radius:50%; background: linear-gradient(180deg, var(--emerald-1), var(--emerald-2)); box-shadow: 0 6px 18px rgba(3,20,12,0.6), 0 0 12px rgba(212,175,55,0.07); border: 1px solid rgba(255,255,255,0.04); }
+    .section-sub{ color:var(--muted); font-size:13px; }
+
+    .about-card{ display:grid; grid-template-columns: 1fr 360px; gap:22px; align-items:start; padding:22px; border-radius:18px; background: linear-gradient(180deg, rgba(6,60,40,0.12), rgba(0,0,0,0.08)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(var(--glass-blur)); box-shadow: 0 12px 40px rgba(2,8,6,0.6); }
+    .about-text p{ color:var(--muted); font-size:15px; margin-bottom:12px; }
+
+    .portfolio-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; }
+    .project{ border-radius:14px; padding:14px; min-height:180px; display:flex; flex-direction:column; justify-content:space-between; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(12px); transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition); position:relative; overflow:hidden; }
+    .project:hover{ transform: translateY(-10px) scale(1.01); border-color: rgba(212,175,55,0.5); box-shadow: 0 22px 80px rgba(212,175,55,0.06); }
+    .project .thumb{ height:110px; border-radius:10px; overflow:hidden; border: 1px solid rgba(255,255,255,0.03); display:block; margin-bottom:12px; }
+    .project h4{ font-size:16px; font-weight:700; }
+    .project p{ color:var(--muted); font-size:13px; }
+    .project .tags{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+    .tag{ padding:6px 8px; border-radius:8px; font-size:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); border: 1px solid rgba(255,255,255,0.03); color:var(--muted); }
+
+    .project::before{ content:""; position:absolute; inset:0; border-radius:14px; padding:2px; pointer-events:none; background: linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.0) 40%, rgba(212,175,55,0.08) 60%, transparent 100%); mix-blend-mode: screen; opacity:0; transition: opacity var(--transition); }
+    .project:hover::before{ opacity:1; }
+    .project .overlay{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg, rgba(2,6,4,0.35), rgba(2,6,4,0.6)); opacity:0; transform:translateY(12px); transition: all 260ms ease; border-radius:14px; color:var(--text); padding:18px; text-align:center; }
+    .project:hover .overlay{ opacity:1; transform:translateY(0); }
+
+    .contact-wrap{ display:grid; grid-template-columns: 1fr 380px; gap:20px; align-items:start; }
+    .contact-card{ padding:20px; border-radius:16px; background: linear-gradient(180deg, rgba(6,60,40,0.12), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(var(--glass-blur)); box-shadow: 0 12px 40px rgba(2,8,6,0.6); }
+
+    form .field{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+    input[type="text"], input[type="email"], textarea{ background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding:12px; border-radius:10px; color:var(--text); outline:none; font-size:14px; backdrop-filter: blur(6px); }
+    textarea{ min-height:120px; resize:vertical; }
+
+    footer{ padding:18px; display:flex; justify-content:center; color:var(--muted); font-size:13px; opacity:0.95; }
+
+    /* Responsive */
+    @media (max-width:1100px){
+      .hero-card{ grid-template-columns: 1fr; }
+      .about-card{ grid-template-columns: 1fr; }
+      .contact-wrap{ grid-template-columns: 1fr; }
+      .portfolio-grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width:680px){
+      header{ padding:10px; gap:8px; }
+      .brand .logo{ width:44px;height:44px;border-radius:10px; }
+      .hero{ min-height:72vh; padding:20px 12px; }
+      .hero-card{ padding:20px; border-radius:16px; gap:14px; }
+      .profile-card{ flex-direction:row; gap:10px; }
+      .portfolio-grid{ grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+    }
+
+    .muted{ color:var(--muted); }
+    .center{ display:grid; place-items:center; }
+    .visually-hidden{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+
+    /* Focus outlines applied when using keyboard */
+    .show-focus a:focus, .show-focus button:focus, .show-focus input:focus, .show-focus textarea:focus{
+      outline: 3px solid var(--focus-outline);
+      outline-offset: 4px;
+      border-radius:10px;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Canvas for golden particles -->
+  <canvas id="particles" width="1600" height="900" aria-hidden="true"></canvas>
+
+  <div class="site" id="site">
+    <header role="banner" aria-label="رأس الصفحة">
+      <div class="brand" aria-hidden="false">
+        <div class="logo" title="الشعار" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="22" height="22" rx="5" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"></rect>
+            <path d="M6 16V8L12 6L18 8V16" stroke="rgba(212,175,55,0.95)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 12H18" stroke="rgba(255,255,255,0.9)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-weight:800; font-size:14px;">Ismail</div>
+          <div style="font-size:12px; color:var(--muted);">مبرمج — منتج فيديوهات</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="روابط التصفح">
+        <a href="#home">الرئيسية</a>
+        <a href="#about">من أنا</a>
+        <a href="#portfolio">الأعمال</a>
+        <a href="#contact">تواصل</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="home" aria-label="الشاشة الرئيسية">
+      <div class="hero-bg" aria-hidden="true"></div>
+
+      <div class="hero-card" role="region" aria-labelledby="hero-title">
+        <div style="padding-right:10px;">
+          <div class="title-wrap">
+            <h1 id="hero-title" class="title"> About Me </h1>
+            <p class="subtitle">مبرمج ومنتج فيديوهات احترافية — أبدع واجهات تفاعلية ومحتوى مرئي متميز يجمع بين الدقّة التقنية وفخامة التصميم.</p>
+          </div>
+
+          <div class="cta">
+            <button class="btn primary" id="scrollToPortfolio" type="button">عرض الأعمال</button>
+            <a class="btn ghost" href="#contact" role="button">تواصل الآن</a>
+          </div>
+
+          <div style="margin-top:18px; color:var(--muted); font-size:13px;">
+            <span class="muted">خدمات: تطوير واجهات ويب، أنظمة تفاعلية، إنتاج فيديو دعائي، مونتاج احترافي.</span>
+          </div>
+        </div>
+
+        <aside class="profile-card" aria-label="بطاقة الملف الشخصي">
+          <div class="avatar" aria-hidden="true">
+            <img src="foto/rtx.jpg" alt="صورة شخصية" loading="lazy" />
+          </div>
+
+          <div class="meta">
+            <div class="name">Ismail Al Shakoush</div>
+            <div class="role">مبرمج — منتج فيديوهات</div>
+
+            <div class="stats">
+              <div class="stat"><strong>3+</strong> سنوات خبرة</div>
+              <div class="stat"><strong>80+</strong> مشروع</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div style="position:absolute; right:10%; bottom:6%; z-index:2; pointer-events:none;">
+        <svg width="240" height="240" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+          <defs>
+            <radialGradient id="g1" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#d4af37" stop-opacity="0.25"></stop>
+              <stop offset="60%" stop-color="#d4af37" stop-opacity="0.05"></stop>
+              <stop offset="100%" stop-color="#d4af37" stop-opacity="0"></stop>
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#g1)"></circle>
+        </svg>
+      </div>
+    </section>
+
+    <main>
+      <section id="about" aria-labelledby="about-title">
+        <div class="section-head">
+          <div>
+            <div class="section-title"><span class="dot" aria-hidden="true"></span> <span>من أنا</span></div>
+            <div class="section-sub">قصة قصيرة عنك: مزيج من التقنية والإخراج السينمائي.</div>
+          </div>
+          <div class="muted">تدرجات زمرُدية، تأثيرات زجاجية، وحركات ناعمة.</div>
+        </div>
+
+        <div class="about-card fade-in">
+          <div class="about-text">
+            <p>أنا مهندس برمجيات متخصص في تطوير واجهات المستخدم التفاعلية ومنتج فيديوهات احترافي. أعمل على تحويل الأفكار المعقّدة إلى تجارب رقمية بسيطة وجميلة، مع إيلاء اهتمام كبير للتفاصيل البصرية والصوتية.</p>
+            <p>أحب استخدام تقنيات عصرية لبناء حلول قابلة للتوسّع، وأنسق بين فرق العمل للإنتاج المرئي وإخراج فيديوهات ترويجية وتعليمية تحقق تأثيراً واضحاً.</p>
+
+            <div class="about-cta">
+              <a class="btn primary" href="#portfolio">شاهد المشاريع</a>
+              <a class="btn ghost" href="#contact">احجز استشارة</a>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="padding:12px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.04);">
+              <strong>مهارات تقنية</strong>
+              <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+                <span class="tag">HTML/CSS</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">WebGL/Canvas</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">Video Editing</span>
+                <span class="tag">Color Grading</span>
+              </div>
+            </div>
+
+            <div style="padding:12px; border-radius:12px; background: linear-gradient(90deg, rgba(212,175,55,0.02), rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.03);">
+              <strong>جائزة/شهادة</strong>
+              <div class="muted">جائزة التميّز في انتاج الفيديو — 2023</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="portfolio" aria-labelledby="portfolio-title">
+        <div class="section-head">
+          <div>
+            <div class="section-title"><span class="dot" aria-hidden="true"></span> <span>الأعمال</span></div>
+            <div class="section-sub">نماذج مختارة من مشاريع البرمجة وإنتاج الفيديو.</div>
+          </div>
+          <div class="muted">تحرّك فوق البطاقة لمشاهدة التفاصيل.</div>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="project fade-in">
+            <div class="thumb" aria-hidden="true">
+              <img src="https://images.unsplash.com/photo-1526378722386-8e24b4b6b1a3?q=80&w=1200&auto=format&fit=crop&s=2143a4d2d6e0f0b7" alt="مشروع برمجي" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+            </div>
+            <div>
+              <h4>واجهة تحكم فاخرة</h4>
+              <p>نظام لوحة تحكم لعميل فاخر، واجهة تفاعلية مع مؤثرات زجاجية وحركات سلسة.</p>
+              <div class="tags"><span class="tag">UI</span><span class="tag">JavaScript</span><span class="tag">Design</span></div>
+            </div>
+            <div class="overlay" aria-hidden="true">
+              <div>
+                <strong>تفاصيل المشروع</strong>
+                <p class="muted" style="margin-top:8px;">React-like architecture (vanilla JS)، أداء متفوق، وتجربة مستخدم عالية المستوى.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project fade-in">
+            <div class="thumb" aria-hidden="true">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&s=b5bdf3b6d7a4c5f8" alt="مشروع برمجي" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+            </div>
+            <div>
+              <h4>فيديو ترويجي لمنتج</h4>
+              <p>مقطع ترويجي مونتاجي مع تدرجات لونية ذهبية وإخراج سينمائي.</p>
+              <div class="tags"><span class="tag">Video</span><span class="tag">Editing</span></div>
+            </div>
+            <div class="overlay" aria-hidden="true">
+              <div>
+                <strong>تفاصيل المشروع</strong>
+                <p class="muted" style="margin-top:8px;">تصوير، مونتاج، تصحيح ألوان، وتحريك عناصر رسومية.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project fade-in">
+            <div class="thumb" aria-hidden="true">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&s=b5bdf3b6d7a4c5f8" alt="مشروع تعليمي" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+            </div>
+            <div>
+              <h4>سلسلة دروس فيديو</h4>
+              <p>سلسلة تعليمية حول تطوير الويب وتصميم الفيديو — مادة احترافية ومنهجية.</p>
+              <div class="tags"><span class="tag">Course</span><span class="tag">Production</span></div>
+            </div>
+            <div class="overlay" aria-hidden="true">
+              <div>
+                <strong>تفاصيل المشروع</strong>
+                <p class="muted" style="margin-top:8px;">تحضير محتوى، تصوير الشاشة، تسجيل صوتي وإخراج نهائي.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-title">
+        <div class="contact-wrap">
+          <aside style="display:flex; flex-direction:column; gap:28px; align-items:center;">
+
+            <div class="contact-card fade-in" style="text-align:center;">
+              <strong id="contact-title">قنوات التواصل</strong>
+              <div class="muted" style="margin-top:8px;">تابعني على الشبكات الاجتماعية أو أرسل رسالة قصيرة.</div>
+
+              <div class="social-icons" role="list">
+                <a href="https://www.tiktok.com" class="social tiktok" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" role="listitem">
+                  <i class="fab fa-tiktok" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.instagram.com" class="social instagram" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" role="listitem">
+                  <i class="fab fa-instagram" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.facebook.com" class="social facebook" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" role="listitem">
+                  <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            
+
+            <div class="contact-card fade-in" style="text-align:center;">
+              <strong>موقع العمل</strong>
+              <div class="muted" style="margin-top:8px;">متاح للعمل عن بعد وأيضاً لمشاريع محدودة في المدن.</div>
+              <div style="margin-top:12px;">
+                <div class="muted">ساعات العمل: <strong class="muted">9:00 — 18:00</strong></div>
+                <div class="muted">اللغة: العربية والإنجليزية</div>
+              </div>
+            </div>
+
+          </aside>
+        </div>
+      </section>
+
+    </main>
+
+    <footer role="contentinfo">
+      <div class="muted">© <span id="year" aria-hidden="true"></span> Ismail — جميع الحقوق محفوظة</div>
+    </footer>
+  </div>
+
+  <!-- JavaScript (محسّن) -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ---------------------------
+       Utilities
+    --------------------------- */
+    const q = (s) => document.querySelector(s);
+    const qa = (s) => Array.from(document.querySelectorAll(s));
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    // Improved throttle (using rAF where possible)
+    const throttleRAF = (fn, limit = 80) => {
+      let last = 0;
+      let rafId = null;
+      return (...args) => {
+        const now = performance.now();
+        if (now - last < limit) {
+          if (rafId) return;
+          rafId = requestAnimationFrame(() => {
+            last = performance.now();
+            rafId = null;
+            fn.apply(null, args);
+          });
+        } else {
+          last = now;
+          fn.apply(null, args);
+        }
+      };
+    };
+
+    /* ---------------------------
+       Global init: year + smooth links
+    --------------------------- */
+    const initGlobal = () => {
+      const yearEl = q('#year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Smooth scroll for internal links and button
+      const internal = qa('a[href^="#"], button#scrollToPortfolio');
+      internal.forEach(el => {
+        el.addEventListener('click', function (e) {
+          const href = this.getAttribute('href') || '#portfolio';
+          const target = href.startsWith('#') ? q(href) : null;
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, { passive: true });
+      });
+    };
+
+    /* ---------------------------
+       Particle system (optimized)
+    --------------------------- */
+    const initParticles = () => {
+      const canvas = q('#particles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let DPR = Math.max(1, window.devicePixelRatio || 1);
+
+      const resize = () => {
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        canvas.width = Math.round(W * DPR);
+        canvas.height = Math.round(H * DPR);
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      };
+      resize();
+      window.addEventListener('resize', throttleRAF(resize, 120), { passive: true });
+
+      // Determine particle count based on viewport area (lower on small devices)
+      const getCount = () => {
+        const area = window.innerWidth * window.innerHeight;
+        const base = Math.round(area / 90000);
+        // Limit extremes; reduce on small screens
+        if (window.innerWidth < 680) return Math.min(28, Math.max(12, Math.round(base * 0.6)));
+        return Math.min(120, Math.max(24, base));
+      };
+
+      class Particle {
+        constructor(W, H) {
+          this.W = W; this.H = H;
+          this.reset(true);
+        }
+        reset(initial = false) {
+          this.x = Math.random() * this.W;
+          this.y = initial ? Math.random() * this.H : this.H + Math.random() * 200;
+          this.r = Math.random() * 2.8 + 0.6;
+          this.dx = (Math.random() - 0.5) * 0.4;
+          this.dy = -(Math.random() * 0.6 + 0.2);
+          this.maxLife = this.life = Math.floor(Math.random() * 240 + 200);
+          this.hue = 40 + Math.random() * 30;
+        }
+        update() {
+          this.x += this.dx;
+          this.y += this.dy;
+          this.life--;
+          // subtle perturbation
+          this.dx += Math.sin(this.life * 0.02) * 0.001;
+          this.dy += Math.cos(this.life * 0.02) * 0.001;
+          if (this.life <= 0 || this.y < -100 || this.x < -200 || this.x > this.W + 200) this.reset();
+        }
+        draw(ctx) {
+          const alpha = clamp(this.life / this.maxLife, 0, 1);
+          const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 8);
+          g.addColorStop(0, `hsla(${this.hue},70%,60%,${(0.14 * alpha).toFixed(3)})`);
+          g.addColorStop(0.3, `hsla(${this.hue},60%,55%,${(0.08 * alpha).toFixed(3)})`);
+          g.addColorStop(1, `hsla(${this.hue},60%,50%,0)`);
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r * 8, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `hsla(${this.hue},50%,60%,${(0.9 * alpha).toFixed(3)})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      let particles = [];
+      const rebuild = () => {
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const count = getCount();
+        particles = Array.from({ length: count }, () => new Particle(W, H));
+      };
+      rebuild();
+      window.addEventListener('resize', throttleRAF(rebuild, 300), { passive: true });
+
+      let running = true;
+      const render = () => {
+        if (document.hidden) { // pause when tab not visible
+          running = false;
+          return;
+        }
+        running = true;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.globalCompositeOperation = 'lighter';
+        particles.forEach(p => { p.update(); p.draw(ctx); });
+        ctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(render);
+      };
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !running) requestAnimationFrame(render);
+      });
+
+      requestAnimationFrame(render);
+    };
+
+    /* ---------------------------
+       Fade-in on scroll
+    --------------------------- */
+    const initFadeIn = () => {
+      const els = qa('.fade-in');
+      if (!els.length) return;
+      els.forEach((el, i) => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(18px)';
+        el.style.transition = `opacity 700ms cubic-bezier(.2,.9,.2,1) ${i * 80}ms, transform 700ms cubic-bezier(.2,.9,.2,1) ${i * 80}ms`;
+      });
+
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const t = entry.target;
+              t.style.opacity = 1;
+              t.style.transform = 'translateY(0)';
+              observer.unobserve(t);
+            }
+          });
+        }, { threshold: 0.12 });
+        els.forEach(e => obs.observe(e));
+      } else {
+        const check = throttleRAF(() => {
+          const H = window.innerHeight;
+          els.forEach(el => {
+            if (el.getBoundingClientRect().top < H * 0.85) {
+              el.style.opacity = 1; el.style.transform = 'translateY(0)';
+            }
+          });
+        }, 120);
+        window.addEventListener('scroll', check, { passive: true });
+        check();
+      }
+    };
+
+    /* ---------------------------
+       Dynamic glass blur on scroll (light)
+    --------------------------- */
+    const initGlassScroll = () => {
+      const root = document.documentElement;
+      const handler = throttleRAF(() => {
+        const depth = clamp(window.scrollY / (window.innerHeight || 600), 0, 1);
+        root.style.setProperty('--glass-blur', `${12 + depth * 12}px`);
+      }, 30);
+      window.addEventListener('scroll', handler, { passive: true });
+    };
+
+    /* ---------------------------
+       Hero parallax (mouse) - light and throttled
+    --------------------------- */
+    const initHeroParallax = () => {
+      const hero = q('.hero-bg');
+      if (!hero) return;
+      let rx = 0, ry = 0;
+      const handler = throttleRAF((e) => {
+        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        ry = (e.clientX - cx) / cx;
+        rx = (e.clientY - cy) / cy;
+        hero.style.transform = `translate3d(${ry * 8}px, ${-rx * 6}px, 0) rotate(${ry * 0.7}deg)`;
+      }, 25);
+      window.addEventListener('mousemove', handler, { passive: true });
+
+      // subtle float via CSS filter for performance
+      let t = 0;
+      const floatLoop = () => {
+        t += 0.006;
+        hero.style.filter = `blur(40px) saturate(120%) brightness(${(1 + Math.sin(t) * 0.02).toFixed(3)})`;
+        requestAnimationFrame(floatLoop);
+      };
+      requestAnimationFrame(floatLoop);
+    };
+
+    /* ---------------------------
+       Keyboard focus outlines
+    --------------------------- */
+    const initAccessibility = () => {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') document.documentElement.classList.add('show-focus');
+      });
+      document.addEventListener('click', () => document.documentElement.classList.remove('show-focus'));
+    };
+
+    /* ---------------------------
+       Small feature: download CV if button exists
+    --------------------------- */
+    const initDownloadCV = () => {
+      const btn = q('#downloadCV');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const cvText = [
+          'السيرة الذاتية',
+          'الاسم: الاسم الكامل',
+          'المسمى: مبرمج ومنتج فيديوهات',
+          '',
+          'المهارات: HTML/CSS, JS, Node.js, Video Editing',
+          '',
+          'المشاريع: متاحة عند الطلب'
+        ].join('\n');
+        const blob = new Blob([cvText], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'CV.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }, { passive: true });
+    };
+
+    /* ---------------------------
+       Init everything on DOMContentLoaded
+    --------------------------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      initGlobal();
+      initParticles();
+      initFadeIn();
+      initGlassScroll();
+      initHeroParallax();
+      initAccessibility();
+      initDownloadCV();
+    });
+
+    // Expose minimal API for debugging (optional)
+    window.__siteUtils = { q, qa, clamp };
+  })();
+  </script>
+</body>
+</html>
